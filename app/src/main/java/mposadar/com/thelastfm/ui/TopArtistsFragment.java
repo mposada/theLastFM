@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -20,7 +22,7 @@ import mposadar.com.thelastfm.io.ApiConstants;
 import mposadar.com.thelastfm.io.ApiService;
 import mposadar.com.thelastfm.io.ServiceGenerator;
 import mposadar.com.thelastfm.io.model.TopArtistsResponse;
-import mposadar.com.thelastfm.ui.adapter.HypedArtistsAdapter;
+import mposadar.com.thelastfm.ui.adapter.TopArtistsAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,14 +30,14 @@ import retrofit2.Response;
 /**
  * Created by mposadar on 29/06/16.
  */
-public class HypedArtistsFragment extends Fragment {
+public class TopArtistsFragment extends Fragment {
 
     // Log variable
-    public String TAG = HypedArtistsFragment.class.getSimpleName();
+    public String TAG = TopArtistsFragment.class.getSimpleName();
     // num of columns to use in RecyclerView
     public static final int NUM_COLUMNS = 2;
     // instance of adapter
-    private HypedArtistsAdapter adapter;
+    private TopArtistsAdapter adapter;
 
     // UI References
     private RecyclerView mHypedArtistsList;
@@ -54,7 +56,7 @@ public class HypedArtistsFragment extends Fragment {
         Log.i(TAG, "onCreate");
 
         // init adapter
-        adapter = new HypedArtistsAdapter(getActivity());
+        adapter = new TopArtistsAdapter(getActivity());
     }
 
     @Nullable
@@ -64,7 +66,7 @@ public class HypedArtistsFragment extends Fragment {
          * inflate the view
          * last parameter (attachToRoot): if true, click events will notify parent class!
          */
-        View view = inflater.inflate(R.layout.fragment_hyped_artists, container, false);
+        View view = inflater.inflate(R.layout.fragment_top_artists, container, false);
         // get reference of RecyclerView from .xml
         mHypedArtistsList = (RecyclerView) view.findViewById(R.id.hyped_artists_list);
 
@@ -93,20 +95,16 @@ public class HypedArtistsFragment extends Fragment {
             public void onResponse(Call<TopArtistsResponse> call, Response<TopArtistsResponse> response) {
 
                 if (response.isSuccessful()) {
-
-                    if (response.body().getTopArtists().getArtist().size() > 0) {
-
-                        ArrayList<Artists> artists = new ArrayList<>();
-
-                        for (TopArtistsResponse.Artist artist: response.body().getTopArtists().getArtist()) {
-                            String artist_name = artist.getName();
-                            String artist_image = artist.getImage().get(2).getText();
-                            artists.add(new Artists(artist_name, artist_image));
-                        }
-
-                        // update adapter content
-                        adapter.addAll(artists);
-
+                    if (response.body().getArtists().size() > 0) {
+                        adapter.addAll(response.body().getArtists());
+                    }
+                }
+                else {
+                    try {
+                        String error = response.errorBody().string();
+                        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -184,18 +182,6 @@ public class HypedArtistsFragment extends Fragment {
         mHypedArtistsList.setAdapter(adapter);
         // set item decoration: space between items
         mHypedArtistsList.addItemDecoration(new ItemOffsetDecoration(getActivity(), R.integer.offset));
-    }
-
-    /**
-     * set dummy content for debug
-     */
-    private void setDummyContent() {
-        ArrayList<Artists> artists = new ArrayList<>();
-        for (int i = 0; i < 10; ++i) {
-            artists.add(new Artists("Artist " + i, ""));
-        }
-        // update adapter content
-        adapter.addAll(artists);
     }
 
 }

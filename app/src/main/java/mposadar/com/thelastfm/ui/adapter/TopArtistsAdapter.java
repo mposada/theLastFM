@@ -19,14 +19,14 @@ import mposadar.com.thelastfm.domain.Artists;
 /**
  * Created by mposadar on 22/07/16.
  */
-public class HypedArtistsAdapter extends RecyclerView.Adapter<HypedArtistsAdapter.HypedArtistsViewHolder> {
+public class TopArtistsAdapter extends RecyclerView.Adapter<TopArtistsAdapter.HypedArtistsViewHolder> {
 
     // establish a touch with context
     Context context;
     // ArrayList of items that the RecyclerView will contain
     ArrayList<Artists> artists;
 
-    public HypedArtistsAdapter(Context context) {
+    public TopArtistsAdapter(Context context) {
         this.context = context;
         // initialize ArrayList
         artists = new ArrayList<>();
@@ -45,7 +45,7 @@ public class HypedArtistsAdapter extends RecyclerView.Adapter<HypedArtistsAdapte
          * inflate the view
          * last parameter (attachToRoot): if true, click events will notify parent class!
          */
-        View view = LayoutInflater.from(context).inflate(R.layout.item_hyped_artists, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_top_artists, parent, false);
         // return an instance of the ViewHolder nested class
         return new HypedArtistsViewHolder(view);
     }
@@ -64,7 +64,7 @@ public class HypedArtistsAdapter extends RecyclerView.Adapter<HypedArtistsAdapte
         // set values...
         holder.setArtistName(currentArtists.getName());
         Picasso.with(context)
-                .load(currentArtists.getImage())
+                .load(currentArtists.getImageMedium())
                 .placeholder(R.drawable.artist_placeholder)
                 .into(holder.getArtistImage());
     }
