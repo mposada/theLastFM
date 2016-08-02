@@ -11,8 +11,10 @@ public class ApiConstants {
     public static final String QUERY_KEY_COUNTRY = "country";
     public static final String QUERY_API_KEY = "api_key";
     public static final String QUERY_KEY_FORMAT = "format";
+    public static final String QUERY_KEY_ARTISTS = "artist";
 
     public static final String QUERY_VALUE_METHOD = "geo.gettopartists";
+    public static final String QUERY_VALUE_METHOD_2 = "artist.gettopalbums";
     public static final String QUERY_VALUE_COUNTRY = "spain";
     public static final String QUERY_VALUE_FORMAT = "json";
 }

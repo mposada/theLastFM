@@ -2,6 +2,7 @@ package mposadar.com.thelastfm.io;
 
 import java.util.Map;
 
+import mposadar.com.thelastfm.io.model.TopAlbumsResponse;
 import mposadar.com.thelastfm.io.model.TopArtistsResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -17,4 +18,7 @@ public interface ApiService {
      */
     @GET(ApiConstants.PATH_VERSION)
     Call<TopArtistsResponse> getTopArtists(@QueryMap Map<String, String> params);
+
+    @GET(ApiConstants.PATH_VERSION)
+    Call<TopAlbumsResponse> getTopAlbums(@QueryMap Map<String, String> params);
 }

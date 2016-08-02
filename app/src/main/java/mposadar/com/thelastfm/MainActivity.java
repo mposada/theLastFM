@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import mposadar.com.thelastfm.ui.TopArtistsFragment;
+import mposadar.com.thelastfm.ui.fragment.TopArtistsFragment;
 
 public class MainActivity extends AppCompatActivity {
 

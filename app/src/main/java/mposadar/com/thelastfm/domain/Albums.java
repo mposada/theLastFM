@@ -8,30 +8,34 @@ import com.google.gson.annotations.SerializedName;
 import mposadar.com.thelastfm.io.model.JsonKeys;
 
 /**
- * Created by mposadar on 29/06/16.
+ * Created by mposadar on 1/08/16.
  */
-public class Artists {
-
-    @SerializedName(JsonKeys.ARTIST_NAME)
-    private String name;
+public class Albums {
+    @SerializedName(JsonKeys.PLAY_COUNT)
+    private String playcount;
+    @SerializedName(JsonKeys.ALBUM_NAME)
+    private String albumName;
+    // get this in custom methods...
+    private String artistName;
     private String imageLarge;
     private String imageMedium;
 
-    public Artists(String name, String imageLarge, String imageMedium) {
-        this.name = name;
+    public Albums() {
+    }
+
+    public Albums(String playcount, String albumName, String imageLarge, String imageMedium) {
+        this.playcount = playcount;
+        this.albumName = albumName;
         this.imageLarge = imageLarge;
         this.imageMedium = imageMedium;
     }
 
-    public Artists() {
+    public String getPlaycount() {
+        return playcount;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public String getAlbumName() {
+        return albumName;
     }
 
     public String getImageLarge() {
@@ -50,14 +54,22 @@ public class Artists {
         this.imageMedium = imageMedium;
     }
 
+    public String getArtistName() {
+        return artistName;
+    }
+
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
+    }
+
     /**
      * TODO: explain this...
-     * @param artistData
+     * @param albumData
      * @return
      */
-    public static Artists buildArtistFromJson(JsonObject artistData) {
+    public static Albums buildAlbumFromJson(JsonObject albumData) {
         Gson gson = new Gson();
-        return gson.fromJson(artistData, Artists.class);
+        return gson.fromJson(albumData, Albums.class);
     }
 
     /**
@@ -66,7 +78,7 @@ public class Artists {
      * @param imagesJson
      * @return
      */
-    public Artists extractUrlsFromImagesArray(JsonArray imagesJson){
+    public Albums extractUrlsFromImagesArray(JsonArray imagesJson){
         String [] images = new String[2];
 
         for (int i = 0; i < imagesJson.size(); i++) {
@@ -89,6 +101,19 @@ public class Artists {
         //Set the images
         setImageMedium(images[0]);
         setImageLarge(images[1]);
+
+        return this;
+    }
+
+    /**
+     * extract the artist name from the given artist json object
+     * @param artistJson
+     * @return
+     */
+    public Albums extractArtistName(JsonObject artistJson) {
+
+        String artistName = artistJson.get(JsonKeys.ARTIST_NAME).getAsString();
+        setArtistName(artistName);
 
         return this;
     }

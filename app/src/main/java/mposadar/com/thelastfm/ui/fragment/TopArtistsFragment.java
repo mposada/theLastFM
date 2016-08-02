@@ -1,4 +1,4 @@
-package mposadar.com.thelastfm.ui;
+package mposadar.com.thelastfm.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,15 +13,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import mposadar.com.thelastfm.R;
-import mposadar.com.thelastfm.domain.Artists;
 import mposadar.com.thelastfm.io.ApiConstants;
 import mposadar.com.thelastfm.io.ApiService;
 import mposadar.com.thelastfm.io.ServiceGenerator;
 import mposadar.com.thelastfm.io.model.TopArtistsResponse;
+import mposadar.com.thelastfm.ui.ItemOffsetDecoration;
 import mposadar.com.thelastfm.ui.adapter.TopArtistsAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -86,7 +85,7 @@ public class TopArtistsFragment extends Fragment {
 
         HashMap<String, String> params = new HashMap<>();
         params.put(ApiConstants.QUERY_KEY_FORMAT, ApiConstants.QUERY_VALUE_FORMAT);
-        params.put(ApiConstants.QUERY_API_KEY, "066f583a8a96a308ebc340f14e4c33a2");
+        params.put(ApiConstants.QUERY_API_KEY, "...");
         params.put(ApiConstants.QUERY_KEY_COUNTRY, ApiConstants.QUERY_VALUE_COUNTRY);
         params.put(ApiConstants.QUERY_KEY_METHOD, ApiConstants.QUERY_VALUE_METHOD);
         Call<TopArtistsResponse> call = client.getTopArtists(params);
