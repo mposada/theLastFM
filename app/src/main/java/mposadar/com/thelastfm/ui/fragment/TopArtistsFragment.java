@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.HashMap;
 
+import mposadar.com.thelastfm.BuildConfig;
 import mposadar.com.thelastfm.R;
 import mposadar.com.thelastfm.io.ApiConstants;
 import mposadar.com.thelastfm.io.ApiService;
@@ -85,7 +86,7 @@ public class TopArtistsFragment extends Fragment {
 
         HashMap<String, String> params = new HashMap<>();
         params.put(ApiConstants.QUERY_KEY_FORMAT, ApiConstants.QUERY_VALUE_FORMAT);
-        params.put(ApiConstants.QUERY_API_KEY, "...");
+        params.put(ApiConstants.QUERY_API_KEY, BuildConfig.API);
         params.put(ApiConstants.QUERY_KEY_COUNTRY, ApiConstants.QUERY_VALUE_COUNTRY);
         params.put(ApiConstants.QUERY_KEY_METHOD, ApiConstants.QUERY_VALUE_METHOD);
         Call<TopArtistsResponse> call = client.getTopArtists(params);

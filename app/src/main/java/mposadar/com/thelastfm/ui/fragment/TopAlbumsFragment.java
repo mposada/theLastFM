@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import java.util.HashMap;
 
+import mposadar.com.thelastfm.BuildConfig;
 import mposadar.com.thelastfm.R;
 import mposadar.com.thelastfm.io.ApiConstants;
 import mposadar.com.thelastfm.io.ApiService;
@@ -71,7 +72,7 @@ public class TopAlbumsFragment extends Fragment {
 
         HashMap<String, String> params = new HashMap<>();
         params.put(ApiConstants.QUERY_KEY_FORMAT, ApiConstants.QUERY_VALUE_FORMAT);
-        params.put(ApiConstants.QUERY_API_KEY, "066f583a8a96a308ebc340f14e4c33a2");
+        params.put(ApiConstants.QUERY_API_KEY, BuildConfig.API);
         params.put(ApiConstants.QUERY_KEY_ARTISTS, "ColdPlay");
         params.put(ApiConstants.QUERY_KEY_METHOD, ApiConstants.QUERY_VALUE_METHOD_2);
 
