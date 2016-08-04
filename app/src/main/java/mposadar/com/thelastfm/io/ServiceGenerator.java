@@ -3,10 +3,13 @@ package mposadar.com.thelastfm.io;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import mposadar.com.thelastfm.io.deserializer.TopAlbumDeserializer;
 import mposadar.com.thelastfm.io.deserializer.TopArtistDeserializer;
+import mposadar.com.thelastfm.io.model.TopAlbumsResponse;
 import mposadar.com.thelastfm.io.model.TopArtistsResponse;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -25,6 +28,7 @@ public class ServiceGenerator {
     // rest client with the api base url
     private static Retrofit.Builder builder = new Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .addConverterFactory(factory());
 
     // create a http client
@@ -47,7 +51,8 @@ public class ServiceGenerator {
         * @param typeAdapter This object must implement at least one of the {@link TypeAdapter}
         */
         GsonBuilder gsonBuilder = new GsonBuilder()
-                .registerTypeAdapter(TopArtistsResponse.class, new TopArtistDeserializer());
+                .registerTypeAdapter(TopArtistsResponse.class, new TopArtistDeserializer())
+                .registerTypeAdapter(TopAlbumsResponse.class, new TopAlbumDeserializer());
         Gson gson = gsonBuilder.create();
         return GsonConverterFactory.create(gson);
     };

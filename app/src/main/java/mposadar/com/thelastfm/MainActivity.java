@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import mposadar.com.thelastfm.ui.fragment.TopAlbumsFragment;
 import mposadar.com.thelastfm.ui.fragment.TopArtistsFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.main_container, new TopArtistsFragment())
+                .add(R.id.main_container, new TopAlbumsFragment())
                 .commit();
     }
 

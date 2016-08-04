@@ -44,7 +44,7 @@ public class TopAlbumsAdapter extends RecyclerView.Adapter<TopAlbumsAdapter.TopA
          * inflate the view
          * last parameter (attachToRoot): if true, click events will notify parent class!
          */
-        View view = LayoutInflater.from(context).inflate(R.layout.item_top_artists, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_top_albums, parent, false);
         // return an instance of the ViewHolder nested class
         return new TopAlbumsAdapterViewHolder(view);
     }
@@ -64,6 +64,7 @@ public class TopAlbumsAdapter extends RecyclerView.Adapter<TopAlbumsAdapter.TopA
         holder.setAlbumName(currentAlbum.getAlbumName());
         holder.setAlbumListeners(currentAlbum.getPlaycount());
         holder.setArtistName(currentAlbum.getArtistName());
+
         Picasso.with(context)
                 .load(currentAlbum.getImageMedium())
                 .placeholder(R.drawable.artist_placeholder)

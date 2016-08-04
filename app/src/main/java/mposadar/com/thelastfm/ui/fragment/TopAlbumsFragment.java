@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,10 @@ import mposadar.com.thelastfm.io.ServiceGenerator;
 import mposadar.com.thelastfm.io.model.TopAlbumsResponse;
 import mposadar.com.thelastfm.ui.ItemOffsetDecoration;
 import mposadar.com.thelastfm.ui.adapter.TopAlbumsAdapter;
-import retrofit2.Call;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +31,7 @@ import retrofit2.Call;
 public class TopAlbumsFragment extends Fragment {
 
     // Logic References
+    private static final String TAG = TopAlbumsFragment.class.getSimpleName();
     private TopAlbumsAdapter adapter;
 
     // UI References
@@ -56,18 +61,49 @@ public class TopAlbumsFragment extends Fragment {
     private void setupList() {
         topAlbumsList.setLayoutManager(new LinearLayoutManager(getActivity()));
         topAlbumsList.setAdapter(adapter);
-        topAlbumsList.addItemDecoration(new ItemOffsetDecoration(getActivity(), R.integer.offset));
     }
 
-    private void getTopAlbums() {
-        ApiService client = ServiceGenerator.createService(ApiService.class);
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.d(TAG, "onResume");
 
         HashMap<String, String> params = new HashMap<>();
         params.put(ApiConstants.QUERY_KEY_FORMAT, ApiConstants.QUERY_VALUE_FORMAT);
-        params.put(ApiConstants.QUERY_API_KEY, "...");
+        params.put(ApiConstants.QUERY_API_KEY, "066f583a8a96a308ebc340f14e4c33a2");
         params.put(ApiConstants.QUERY_KEY_ARTISTS, "ColdPlay");
         params.put(ApiConstants.QUERY_KEY_METHOD, ApiConstants.QUERY_VALUE_METHOD_2);
-        Call<TopAlbumsResponse> call = client.getTopAlbums(params);
+
+        /*
+         * observeOn: define where the response is going to be observer
+         * in this case it will be observer in the Main Thread.
+         *
+         * subscribeOn: subscribe the request on a separated thread Schedulers.io()
+         *
+         * subscribe: define what to do with objects when finish to observeOn
+         */
+        ApiService client = ServiceGenerator.createService(ApiService.class);
+        Observable<TopAlbumsResponse> observable = client.getTopAlbums(params);
+        observable.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<TopAlbumsResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(TopAlbumsResponse topAlbumsResponse) {
+                        adapter.addAll(topAlbumsResponse.getAlbums());
+                    }
+                });
+
     }
 
 }

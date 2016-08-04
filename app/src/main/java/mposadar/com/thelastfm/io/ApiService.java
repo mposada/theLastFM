@@ -7,6 +7,7 @@ import mposadar.com.thelastfm.io.model.TopArtistsResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.QueryMap;
+import rx.Observable;
 
 /**
  * here we'll find all endpoints
@@ -19,6 +20,7 @@ public interface ApiService {
     @GET(ApiConstants.PATH_VERSION)
     Call<TopArtistsResponse> getTopArtists(@QueryMap Map<String, String> params);
 
+    // use of Observable from rxJava
     @GET(ApiConstants.PATH_VERSION)
-    Call<TopAlbumsResponse> getTopAlbums(@QueryMap Map<String, String> params);
+    Observable<TopAlbumsResponse>  getTopAlbums(@QueryMap Map<String, String> params);
 }
